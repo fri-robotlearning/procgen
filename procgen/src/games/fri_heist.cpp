@@ -12,13 +12,13 @@ const int KEY = 2;
 const int EXIT = 9;
 const int KEY_ON_RING = 11;
 
-class HeistGame : public BasicAbstractGame {
+class FRIHeistGame : public BasicAbstractGame {
   public:
     std::shared_ptr<MazeGen> maze_gen;
     int world_dim, num_keys;
     std::vector<bool> has_keys;
 
-    HeistGame()
+    FRIHeistGame()
         : BasicAbstractGame() {
         maze_gen = nullptr;
         has_useful_vel_info = false;
@@ -114,14 +114,7 @@ class HeistGame : public BasicAbstractGame {
 
         options.center_agent = options.distribution_mode == MemoryMode;
 
-        if (options.distribution_mode == MemoryMode) {
-            num_keys = rand_gen.randn(4);
-        } else {
-            num_keys = difficulty + rand_gen.randn(2);
-        }
-
-        if (num_keys > 3)
-            num_keys = 3;
+        num_keys = 2;
 
         has_keys.clear();
 
@@ -138,7 +131,7 @@ class HeistGame : public BasicAbstractGame {
         float r_ent = maze_scale / 2;
 
         maze_gen = std::make_shared<MazeGen>(&rand_gen, maze_dim);
-        maze_gen->generate_maze_with_doors(num_keys, false);
+        maze_gen->generate_maze_with_doors(num_keys - 1, true);
 
         // move agent out of the way for maze generation
         agent->x = -1;
@@ -201,4 +194,4 @@ class HeistGame : public BasicAbstractGame {
     }
 };
 
-REGISTER_GAME("heist", HeistGame);
+REGISTER_GAME("fri_heist", FRIHeistGame);

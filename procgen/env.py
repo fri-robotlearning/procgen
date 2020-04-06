@@ -24,6 +24,7 @@ ENV_NAMES = [
     "ninja",
     "plunder",
     "starpilot",
+    "fri_heist"
 ]
 
 EXPLORATION_LEVEL_SEEDS = {

@@ -210,7 +210,7 @@ void MazeGen::generate_maze_no_dead_ends() {
 }
 
 // Generate a maze with doors
-void MazeGen::generate_maze_with_doors(int num_doors) {
+void MazeGen::generate_maze_with_doors(int num_doors, bool fri) {
     generate_maze();
 
     std::vector<int> forks;
@@ -276,10 +276,15 @@ void MazeGen::generate_maze_with_doors(int num_doors) {
 
         fassert(space_cells.size() > 0);
 
-        int key_cell = rand_gen->choose_one(space_cells);
-        grid.set_index(key_cell, door_num == num_doors
-                                     ? EXIT_OBJ
-                                     : (KEY_OBJ + door_num + 1));
+        if (fri || door_num != num_doors) {
+            int key_cell = rand_gen->choose_one(space_cells);
+            grid.set_index(key_cell, (KEY_OBJ + door_num + 1));
+        }
+
+        if (door_num == num_doors) {
+            int key_cell = rand_gen->choose_one(space_cells);
+            grid.set_index(key_cell, EXIT_OBJ);
+        }
 
         s0.insert(s1.begin(), s1.end());
 
